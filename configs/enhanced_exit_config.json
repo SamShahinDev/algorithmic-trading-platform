@@ -1,0 +1,68 @@
+{
+  "enhanced_exits": {
+    "enabled": true,
+    
+    "exit_manager": {
+      "stop_loss_points": 20,
+      "take_profit_points": 40,
+      "trailing_stop_points": 15,
+      "max_drawdown_points": 30,
+      "time_stop_minutes": 30
+    },
+    
+    "pattern_memory": {
+      "cooldown_bars": 15,
+      "reuse_threshold_bars": 20
+    },
+    
+    "dual_stops": {
+      "fill_timeout": 5.0,
+      "cancel_timeout": 1.5,
+      "emergency_stop_offset": 25,
+      "stop_distance": 20,
+      "target_distance": 40
+    },
+    
+    "time_sync": {
+      "max_drift_seconds": 2.0,
+      "check_interval": 300
+    },
+    
+    "partial_fills": {
+      "enabled": true,
+      "resize_brackets": true
+    },
+    
+    "restart_recovery": {
+      "enabled": true,
+      "adopt_positions": true,
+      "validate_brackets": true,
+      "cancel_orphaned": true
+    },
+    
+    "features": {
+      "exit_priority_system": true,
+      "idempotent_exits": true,
+      "pattern_persistence": true,
+      "honest_labeling": true,
+      "dual_stops": true,
+      "safe_cancel_timeout": true,
+      "tick_rounding": true,
+      "time_sync_check": true,
+      "partial_fill_handling": true,
+      "restart_recovery": true,
+      "state_machine_validation": true,
+      "structured_logging": true,
+      "manual_exit_detection": true,
+      "phantom_protection": true,
+      "rate_limit_priority": true,
+      "enhanced_exits": true,
+      "legacy_fallback": true
+    },
+    
+    "logging": {
+      "exit_log_file": "logs/enhanced_exits.jsonl",
+      "log_level": "INFO"
+    }
+  }
+}

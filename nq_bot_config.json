@@ -1,0 +1,28 @@
+{
+  "instrument": "NQ",
+  "instruments": ["NQ"],
+  "max_position_size": 1,
+  "max_loss_per_trade": 100,
+  "daily_loss_limit": 500,
+  "stop_distance": 20,
+  "target_distance": 40,
+  
+  "adopt_existing_positions": false,
+  "cancel_orphaned_orders": true,
+  "flatten_on_startup": false,
+  "flatten_on_shutdown": true,
+  
+  "polling_interval": 30,
+  "websocket_url": null,
+  
+  "broker": {
+    "account_type": "Combine",
+    "environment": "production"
+  },
+  
+  "alerts": {
+    "enable_console": true,
+    "enable_file": true,
+    "alert_file": "logs/nq_bot_alerts.jsonl"
+  }
+}

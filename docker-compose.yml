@@ -1,0 +1,167 @@
+version: '3.8'
+
+services:
+  nq_bot:
+    build: .
+    container_name: xtrading_nq_bot
+    command: python trading_bot/intelligent_trading_bot_fixed_v2.py --recover-state
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs:rw
+      - ./state:/app/state:rw
+      - ./web_platform:/app/web_platform:ro
+      - ./trading_bot:/app/trading_bot:ro
+      - ./shared:/app/shared:ro
+    environment:
+      - BOT_TYPE=NQ
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    ports:
+      - "8100:8100"  # Health endpoint
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: |
+        CMD python3 -c "
+        import json,sys,datetime
+        from pathlib import Path
+        p=Path('logs/nq_bot.heartbeat.json')
+        if not p.exists(): sys.exit(1)
+        obj=json.loads(p.read_text())
+        now=datetime.datetime.now(datetime.timezone.utc)
+        ts=datetime.datetime.fromisoformat(obj['ts'].replace('Z','+00:00'))
+        gap=(now-ts).total_seconds()
+        ready=(gap<30 and obj.get('state')=='ready' and obj.get('md_gap_sec',999)<5)
+        sys.exit(0 if ready else 1)
+        "
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          
+  es_bot:
+    build: .
+    container_name: xtrading_es_bot
+    command: python es_bot/main.py
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs:rw
+      - ./state:/app/state:rw
+      - ./web_platform:/app/web_platform:ro
+      - ./es_bot:/app/es_bot:ro
+      - ./shared:/app/shared:ro
+    environment:
+      - BOT_TYPE=ES
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    ports:
+      - "8101:8101"  # Health endpoint
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: |
+        CMD python3 -c "
+        import json,sys,datetime
+        from pathlib import Path
+        p=Path('logs/es_bot.heartbeat.json')
+        if not p.exists(): sys.exit(1)
+        obj=json.loads(p.read_text())
+        now=datetime.datetime.now(datetime.timezone.utc)
+        ts=datetime.datetime.fromisoformat(obj['ts'].replace('Z','+00:00'))
+        gap=(now-ts).total_seconds()
+        ready=(gap<30 and obj.get('state')=='ready')
+        sys.exit(0 if ready else 1)
+        "
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+
+  cl_bot:
+    build: .
+    container_name: xtrading_cl_bot
+    command: python cl_bot/main.py
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs:rw
+      - ./state:/app/state:rw
+      - ./web_platform:/app/web_platform:ro
+      - ./cl_bot:/app/cl_bot:ro
+      - ./shared:/app/shared:ro
+    environment:
+      - BOT_TYPE=CL
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    ports:
+      - "8102:8102"  # Health endpoint
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: |
+        CMD python3 -c "
+        import json,sys,datetime
+        from pathlib import Path
+        p=Path('logs/cl_bot.heartbeat.json')
+        if not p.exists(): sys.exit(1)
+        obj=json.loads(p.read_text())
+        now=datetime.datetime.now(datetime.timezone.utc)
+        ts=datetime.datetime.fromisoformat(obj['ts'].replace('Z','+00:00'))
+        gap=(now-ts).total_seconds()
+        ready=(gap<30 and obj.get('state')=='ready')
+        sys.exit(0 if ready else 1)
+        "
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+          
+  monitor:
+    build: .
+    container_name: xtrading_monitor
+    command: python production_monitor.py
+    restart: always
+    volumes:
+      - ./logs:/app/logs:rw
+      - ./state:/app/state:rw
+      - /var/run/docker.sock:/var/run/docker.sock  # For Docker control
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=UTC
+    depends_on:
+      - nq_bot
+      - es_bot
+      - cl_bot
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+networks:
+  default:
+    name: xtrading_network

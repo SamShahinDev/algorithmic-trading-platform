@@ -1,0 +1,106 @@
+# SDK Trading Agent - Main Configuration
+# ======================================
+
+# Trading Configuration
+trading:
+  contract_id: "CON.F.US.ENQ.Z25"  # NQ December 2025
+  account_id: 11858597  # From .env.topstepx
+  tick_size: 0.25
+  tick_value: 5.0
+  mode: "demo"  # demo or live
+
+# Daily Limits
+daily_limits:
+  target_profit: 250  # Stop trading when hit
+  max_loss: -150      # Stop trading when hit
+  max_trades: 8       # Across all strategies
+
+# Strategy Allocation (max trades per strategy)
+strategy_limits:
+  vwap: 4
+  breakout: 2
+  momentum: 2
+
+# VWAP Strategy Parameters
+vwap_strategy:
+  enabled: true
+  entry_std_dev_min: 1.5   # Min standard deviations from VWAP
+  entry_std_dev_max: 2.5   # Max standard deviations from VWAP
+  rsi_min: 45
+  rsi_max: 55
+  max_spread_ticks: 1
+  target_ticks: 12
+  stop_ticks: 8
+
+# Breakout Strategy Parameters
+breakout_strategy:
+  enabled: true
+  range_start_time: "09:30"  # CT
+  range_end_time: "10:00"
+  min_breakout_ticks: 2      # Clean break above/below
+  volume_multiplier: 1.5     # Volume confirmation
+  max_range_size_ticks: 40
+  target_ticks: 30
+  stop_ticks: 12
+
+# Momentum Strategy Parameters
+momentum_strategy:
+  enabled: true
+  ema_fast: 20
+  ema_slow: 50
+  pullback_max_ticks: 10     # Max pullback to EMA
+  macd_histogram_threshold: 0
+  volume_multiplier: 1.0
+  target_ticks: 20
+  stop_ticks: 10
+
+# Market Regime Detection
+regime_detection:
+  adx_period: 14
+  adx_trending_threshold: 25  # Above = trending, below = ranging
+  vwap_slope_lookback: 30     # minutes
+
+# Time Filters (Central Time)
+time_filters:
+  market_open: "09:30"
+  market_close: "15:00"
+  prime_morning_start: "09:30"
+  prime_morning_end: "11:30"
+  lunch_skip_start: "11:30"  # Skip lunch chop
+  lunch_skip_end: "13:30"
+  prime_afternoon_start: "13:30"
+  prime_afternoon_end: "15:00"
+
+# ATR-Based Dynamic Risk (ticks)
+atr_risk_levels:
+  low_volatility:
+    atr_max: 20
+    stop_ticks: 6
+    target_ticks: 10
+  normal_volatility:
+    atr_min: 20
+    atr_max: 35
+    stop_ticks: 8
+    target_ticks: 12
+  high_volatility:
+    atr_min: 35
+    stop_ticks: 12
+    target_ticks: 18
+
+# Agent Configuration
+agent:
+  model: "claude-sonnet-4-20250514"
+  decision_interval: 60  # seconds
+  context_window: 100  # number of bars to analyze
+
+# Market Data
+market_data:
+  websocket_reconnect_delay: 5  # seconds
+  data_cache_size: 1000  # number of bars
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file_path: "logs/sdk_agent.log"
+  max_file_size: 10485760  # 10MB
+  backup_count: 5

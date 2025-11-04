@@ -1,0 +1,342 @@
+"""
+DataCache - Efficient market data management for NQ trading bot
+Maintains rolling window of bars, builds multiple timeframes, and pre-computes indicators
+"""
+
+import logging
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta, timezone
+from typing import Dict, Optional, Tuple, List
+import asyncio
+from collections import deque
+
+logger = logging.getLogger(__name__)
+
+class DataCache:
+    """
+    Efficient market data cache with incremental updates
+    - Maintains rolling 200 1-minute bars
+    - Builds 5m/1h timeframes from 1m data
+    - Pre-computes technical indicators
+    - Updates incrementally every 3 seconds
+    """
+    
+    def __init__(self, broker, symbol: str = 'NQ'):
+        """
+        Initialize DataCache
+        
+        Args:
+            broker: TopStepX client for data fetching
+            symbol: Trading symbol (default: 'NQ')
+        """
+        self.broker = broker
+        self.symbol = symbol
+        
+        # Data storage
+        self.bars_1m = pd.DataFrame()  # Primary 1-minute data
+        self.bars_5m = pd.DataFrame()  # 5-minute aggregated
+        self.bars_1h = pd.DataFrame()  # 1-hour aggregated
+        
+        # Indicators cache
+        self.indicators = {
+            '1m': {},
+            '5m': {},
+            '1h': {}
+        }
+        
+        # Tracking
+        self.last_bar_time = None
+        self.last_update = None
+        self.initial_fetch_done = False
+        self.update_interval = 3  # seconds
+        
+        # Performance metrics
+        self.fetch_count = 0
+        self.incremental_updates = 0
+        self.full_refreshes = 0
+        
+        logger.info(f"DataCache initialized for {symbol}")
+    
+    async def initialize(self) -> bool:
+        """
+        Perform initial data fetch to populate cache
+        
+        Returns:
+            bool: Success status
+        """
+        try:
+            logger.info("DataCache: Performing initial data fetch...")
+            
+            # Fetch initial 200 bars
+            data = await self.broker.get_historical_data(
+                symbol=self.symbol,
+                interval='1m',
+                bars=200
+            )
+            
+            if data is not None and not data.empty:
+                self.bars_1m = data.copy()
+                self.last_bar_time = pd.to_datetime(data.index[-1])
+                self.initial_fetch_done = True
+                self.full_refreshes += 1
+                
+                # Build higher timeframes
+                self._build_timeframes()
+                
+                # Compute initial indicators
+                self._compute_all_indicators()
+                
+                logger.info(f"DataCache: Initialized with {len(self.bars_1m)} 1m bars")
+                logger.info(f"DataCache: Built {len(self.bars_5m)} 5m bars, {len(self.bars_1h)} 1h bars")
+                return True
+            else:
+                logger.error("DataCache: Failed to fetch initial data")
+                return False
+                
+        except Exception as e:
+            logger.error(f"DataCache initialization error: {e}")
+            return False
+    
+    async def update(self) -> bool:
+        """
+        Incremental update - only fetch new bars since last update
+        
+        Returns:
+            bool: Success status
+        """
+        if not self.initial_fetch_done:
+            return await self.initialize()
+        
+        try:
+            # Calculate bars needed since last update
+            now = datetime.now(timezone.utc)
+            time_since_last = (now - self.last_bar_time).total_seconds() / 60  # minutes
+            
+            if time_since_last < 1:
+                # No new complete bar expected
+                logger.debug(f"DataCache: No update needed, last bar {time_since_last:.1f} min ago")
+                return True
+            
+            # Fetch only the bars we need (max 10 for safety)
+            bars_needed = min(int(time_since_last) + 1, 10)
+            
+            logger.debug(f"DataCache: Fetching {bars_needed} new bars (incremental)")
+            
+            new_data = await self.broker.get_historical_data(
+                symbol=self.symbol,
+                interval='1m',
+                bars=bars_needed
+            )
+            
+            if new_data is not None and not new_data.empty:
+                # Filter only truly new bars
+                new_bars = new_data[new_data.index > self.last_bar_time]
+                
+                if not new_bars.empty:
+                    # Append new bars and maintain 200 bar window
+                    self.bars_1m = pd.concat([self.bars_1m, new_bars]).tail(200)
+                    self.last_bar_time = pd.to_datetime(new_bars.index[-1])
+                    self.incremental_updates += 1
+                    
+                    logger.info(f"DataCache: Added {len(new_bars)} new bars (incremental update #{self.incremental_updates})")
+                    
+                    # Rebuild timeframes and indicators
+                    self._build_timeframes()
+                    self._compute_all_indicators()
+                
+                self.last_update = now
+                return True
+            else:
+                logger.warning("DataCache: Failed to fetch incremental update")
+                return False
+                
+        except Exception as e:
+            logger.error(f"DataCache update error: {e}")
+            return False
+    
+    def _build_timeframes(self):
+        """Build 5m and 1h timeframes from 1m data"""
+        if self.bars_1m.empty:
+            return
+        
+        try:
+            # Build 5-minute bars
+            self.bars_5m = self.bars_1m.resample('5T').agg({
+                'open': 'first',
+                'high': 'max',
+                'low': 'min',
+                'close': 'last',
+                'volume': 'sum'
+            }).dropna()
+            
+            # Build 1-hour bars
+            self.bars_1h = self.bars_1m.resample('1H').agg({
+                'open': 'first',
+                'high': 'max',
+                'low': 'min',
+                'close': 'last',
+                'volume': 'sum'
+            }).dropna()
+            
+        except Exception as e:
+            logger.error(f"Error building timeframes: {e}")
+    
+    def _compute_all_indicators(self):
+        """Compute all technical indicators for all timeframes"""
+        for timeframe in ['1m', '5m', '1h']:
+            data = self.get_bars(timeframe)
+            if data is not None and len(data) > 20:
+                self._compute_indicators(timeframe, data)
+    
+    def _compute_indicators(self, timeframe: str, data: pd.DataFrame):
+        """
+        Compute technical indicators for a specific timeframe
+        
+        Args:
+            timeframe: '1m', '5m', or '1h'
+            data: DataFrame with OHLCV data
+        """
+        try:
+            # ATR (14)
+            high_low = data['high'] - data['low']
+            high_close = abs(data['high'] - data['close'].shift())
+            low_close = abs(data['low'] - data['close'].shift())
+            tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+            atr = tr.rolling(window=14).mean()
+            
+            # ADX (14)
+            plus_dm = data['high'].diff()
+            minus_dm = -data['low'].diff()
+            plus_dm[plus_dm < 0] = 0
+            minus_dm[minus_dm < 0] = 0
+            
+            atr_smooth = tr.ewm(span=14, adjust=False).mean()
+            plus_di = 100 * (plus_dm.ewm(span=14, adjust=False).mean() / atr_smooth)
+            minus_di = 100 * (minus_dm.ewm(span=14, adjust=False).mean() / atr_smooth)
+            dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
+            adx = dx.rolling(window=14).mean()
+            
+            # VWAP (session-based)
+            typical_price = (data['high'] + data['low'] + data['close']) / 3
+            cumulative_tpv = (typical_price * data['volume']).cumsum()
+            cumulative_volume = data['volume'].cumsum()
+            vwap = cumulative_tpv / cumulative_volume
+            
+            # RSI (14)
+            delta = data['close'].diff()
+            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            rs = gain / loss
+            rsi = 100 - (100 / (1 + rs))
+            
+            # Store indicators
+            self.indicators[timeframe] = {
+                'atr': atr.iloc[-1] if not atr.empty else None,
+                'adx': adx.iloc[-1] if not adx.empty else None,
+                'vwap': vwap.iloc[-1] if not vwap.empty else None,
+                'rsi': rsi.iloc[-1] if not rsi.empty else None,
+                'atr_series': atr,
+                'adx_series': adx,
+                'vwap_series': vwap,
+                'rsi_series': rsi
+            }
+            
+            logger.debug(f"Indicators updated for {timeframe}: ATR={self.indicators[timeframe]['atr']:.2f}, "
+                        f"ADX={self.indicators[timeframe]['adx']:.2f}, RSI={self.indicators[timeframe]['rsi']:.2f}")
+            
+        except Exception as e:
+            logger.error(f"Error computing indicators for {timeframe}: {e}")
+            self.indicators[timeframe] = {}
+    
+    def get_bars(self, timeframe: str = '1m') -> Optional[pd.DataFrame]:
+        """
+        Get bars for specified timeframe
+        
+        Args:
+            timeframe: '1m', '5m', or '1h'
+            
+        Returns:
+            DataFrame with OHLCV data
+        """
+        if timeframe == '1m':
+            return self.bars_1m
+        elif timeframe == '5m':
+            return self.bars_5m
+        elif timeframe == '1h':
+            return self.bars_1h
+        else:
+            logger.error(f"Invalid timeframe: {timeframe}")
+            return None
+    
+    def get_indicator(self, indicator: str, timeframe: str = '1m') -> Optional[float]:
+        """
+        Get latest value for an indicator
+        
+        Args:
+            indicator: 'atr', 'adx', 'vwap', or 'rsi'
+            timeframe: '1m', '5m', or '1h'
+            
+        Returns:
+            Latest indicator value or None
+        """
+        if timeframe in self.indicators:
+            return self.indicators[timeframe].get(indicator)
+        return None
+    
+    def get_indicator_series(self, indicator: str, timeframe: str = '1m') -> Optional[pd.Series]:
+        """
+        Get full series for an indicator
+        
+        Args:
+            indicator: 'atr', 'adx', 'vwap', or 'rsi'
+            timeframe: '1m', '5m', or '1h'
+            
+        Returns:
+            Pandas series with indicator values or None
+        """
+        if timeframe in self.indicators:
+            return self.indicators[timeframe].get(f"{indicator}_series")
+        return None
+    
+    def get_current_price(self) -> Optional[float]:
+        """Get the latest close price"""
+        if not self.bars_1m.empty:
+            return float(self.bars_1m['close'].iloc[-1])
+        return None
+    
+    def get_current_bar(self, timeframe: str = '1m') -> Optional[pd.Series]:
+        """Get the latest complete bar"""
+        bars = self.get_bars(timeframe)
+        if bars is not None and not bars.empty:
+            return bars.iloc[-1]
+        return None
+    
+    def get_performance_stats(self) -> Dict:
+        """Get cache performance statistics"""
+        return {
+            'fetch_count': self.fetch_count,
+            'incremental_updates': self.incremental_updates,
+            'full_refreshes': self.full_refreshes,
+            'cache_efficiency': (self.incremental_updates / max(1, self.incremental_updates + self.full_refreshes)) * 100,
+            'bars_1m': len(self.bars_1m),
+            'bars_5m': len(self.bars_5m),
+            'bars_1h': len(self.bars_1h),
+            'last_update': self.last_update
+        }
+    
+    async def start_auto_update(self):
+        """Start automatic update loop"""
+        logger.info(f"DataCache: Starting auto-update loop (every {self.update_interval}s)")
+        
+        while True:
+            try:
+                await self.update()
+                await asyncio.sleep(self.update_interval)
+                
+            except asyncio.CancelledError:
+                logger.info("DataCache: Auto-update loop cancelled")
+                break
+            except Exception as e:
+                logger.error(f"DataCache auto-update error: {e}")
+                await asyncio.sleep(self.update_interval)

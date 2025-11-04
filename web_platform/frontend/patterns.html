@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Library - NQ Smart Scalper</title>
+    
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Reuse dashboard styles and add pattern-specific styles -->
+    <!-- Pattern Library Styles -->
+    
+    <style>
+        /* Inherit all styles from dashboard */
+        :root {
+            --primary: #8B5CF6;
+            --primary-hover: #7C3AED;
+            --primary-light: #EDE9FE;
+            --primary-lighter: #F3F0FF;
+            --bg-main: #FAFAFA;
+            --bg-sidebar: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-hover: #F9FAFB;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --border-light: #F3F4F6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        /* Pattern Library Specific Styles */
+        .patterns-header {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .patterns-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .patterns-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Filters Section */
+        .filters-section {
+            background: var(--bg-card);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            background: var(--bg-hover);
+            border-radius: 6px;
+            padding: 2px;
+        }
+        
+        .filter-btn {
+            padding: 0.375rem 0.75rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-box {
+            margin-left: auto;
+            position: relative;
+        }
+        
+        .search-input {
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            width: 250px;
+            transition: all 0.2s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+        
+        /* Pattern Grid */
+        .patterns-grid {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Pattern Card */
+        .pattern-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .pattern-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        
+        .pattern-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+        }
+        
+        .pattern-info {
+            flex: 1;
+        }
+        
+        .pattern-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .pattern-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--primary-lighter);
+            color: var(--primary);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .pattern-confidence {
+            text-align: right;
+        }
+        
+        .confidence-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .confidence-high { color: var(--success); }
+        .confidence-medium { color: var(--warning); }
+        .confidence-low { color: var(--error); }
+        
+        .confidence-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Pattern Stats */
+        .pattern-stats {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        /* Pattern Chart */
+        .pattern-chart {
+            padding: 0 1.5rem 1.5rem;
+            height: 100px;
+        }
+        
+        .mini-chart {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.1));
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(139, 92, 246, 0.2), transparent);
+            border-top: 2px solid var(--primary);
+        }
+        
+        /* Pattern Actions */
+        .pattern-actions {
+            padding: 1rem 1.5rem;
+            background: var(--bg-hover);
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-lighter);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .action-btn.primary:hover {
+            background: var(--primary-hover);
+        }
+        
+        /* Pattern Detail Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .modal-close {
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        /* Stats Summary */
+        .stats-summary {
+            background: var(--bg-hover);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .summary-item {
+            text-align: center;
+        }
+        
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .summary-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="platform-container">
+        <!-- Reuse Sidebar from Dashboard -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">🎯</div>
+                    <span>NQ Smart Scalper</span>
+                </div>
+                <div class="quick-action">
+                    <button class="btn-quick" onclick="createNewPattern()">
+                        <span>+</span>
+                        <span>New Pattern</span>
+                    </button>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <a href="/frontend/dashboard.html" class="nav-item">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="/frontend/patterns.html" class="nav-item active">
+                        <span class="nav-icon">📚</span>
+                        <span>Pattern Library</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">🤖</span>
+                        <span>AI Analysis</span>
+                    </a>
+                    <a href="/frontend/performance.html" class="nav-item">
+                        <span class="nav-icon">📈</span>
+                        <span>Performance</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Strategies</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">🔬</span>
+                        <span>Backtesting</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span>Alerts</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Pattern Library Header -->
+            <div class="patterns-header">
+                <h1 class="patterns-title">Pattern Library</h1>
+                <p class="patterns-subtitle">Discover, analyze, and deploy high-probability trading patterns with real-time performance tracking</p>
+            </div>
+            
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <span class="filter-label">Type:</span>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-type="all" onclick="filterPatterns('all', this)">All</button>
+                        <button class="filter-btn" data-type="scalping" onclick="filterPatterns('scalping', this)">Scalping</button>
+                        <button class="filter-btn" data-type="swing" onclick="filterPatterns('swing', this)">Swing</button>
+                        <button class="filter-btn" data-type="trend" onclick="filterPatterns('trend', this)">Trend</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <span class="filter-label">Status:</span>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-status="all" onclick="filterByStatus('all', this)">All</button>
+                        <button class="filter-btn" data-status="active" onclick="filterByStatus('active', this)">Active</button>
+                        <button class="filter-btn" data-status="testing" onclick="filterByStatus('testing', this)">Testing</button>
+                        <button class="filter-btn" data-status="paused" onclick="filterByStatus('paused', this)">Paused</button>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    <input type="text" class="search-input" placeholder="Search patterns...">
+                </div>
+            </div>
+            
+            <!-- Pattern Grid -->
+            <div class="patterns-grid">
+                <!-- Pattern Card 1: S/R Bounce -->
+                <div class="pattern-card" data-type="scalping" data-status="testing" onclick="showPatternDetail('sr-bounce')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">Support/Resistance Bounce</h3>
+                            <span class="pattern-type">Scalping</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-high">89.5%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">142</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$420</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5.2</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+                
+                <!-- Pattern Card 2: VWAP Bounce -->
+                <div class="pattern-card" data-type="scalping" data-status="testing" onclick="showPatternDetail('vwap-bounce')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">VWAP Bounce Scalp</h3>
+                            <span class="pattern-type">Scalping</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-high">76.3%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">89</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$280</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3.8</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+                
+                <!-- Pattern Card 3: Opening Range Breakout -->
+                <div class="pattern-card" data-type="trend" data-status="testing" onclick="showPatternDetail('orb')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">Opening Range Breakout</h3>
+                            <span class="pattern-type">Trend</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-high">82.1%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">67</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$560</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4.5</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+                
+                <!-- Pattern Card 4: Mean Reversion -->
+                <div class="pattern-card" data-type="swing" data-status="testing" onclick="showPatternDetail('mean-reversion')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">Bollinger Mean Reversion</h3>
+                            <span class="pattern-type">Swing</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-medium">68.9%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">103</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$180</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2.9</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+                
+                <!-- Pattern Card 5: Momentum Continuation -->
+                <div class="pattern-card" data-type="trend" data-status="testing" onclick="showPatternDetail('momentum')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">Momentum Continuation</h3>
+                            <span class="pattern-type">Trend</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-medium">71.2%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$340</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3.2</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+                
+                <!-- Pattern Card 6: Volume Breakout -->
+                <div class="pattern-card" data-type="scalping" data-status="testing" onclick="showPatternDetail('volume-breakout')">
+                    <div class="pattern-header">
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">Volume Spike Breakout</h3>
+                            <span class="pattern-type">Scalping</span>
+                        </div>
+                        <div class="pattern-confidence">
+                            <div class="confidence-value confidence-high">79.8%</div>
+                            <div class="confidence-label">Win Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">93</div>
+                            <div class="stat-label">Occurrences</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">$310</div>
+                            <div class="stat-label">Avg Profit</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4.1</div>
+                            <div class="stat-label">Sharpe Ratio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-chart">
+                        <div class="mini-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-actions">
+                        <button class="action-btn">View Details</button>
+                        <button class="action-btn">Backtest</button>
+                        <button class="action-btn primary">Deploy</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Pattern Detail Modal -->
+    <div class="modal-overlay" id="pattern-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-pattern-name">Pattern Details</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-summary">
+                    <div class="summary-item">
+                        <div class="summary-value">89.5%</div>
+                        <div class="summary-label">Win Rate</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">142</div>
+                        <div class="summary-label">Total Trades</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">$59,640</div>
+                        <div class="summary-label">Total Profit</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">5.2</div>
+                        <div class="summary-label">Sharpe Ratio</div>
+                    </div>
+                </div>
+                
+                <!-- More detailed pattern information would go here -->
+                <p>Detailed pattern analysis, entry/exit rules, and performance metrics would be displayed here.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Store current filters
+        let currentTypeFilter = 'all';
+        let currentStatusFilter = 'all';
+        
+        // Filter patterns by type
+        function filterPatterns(type, button) {
+            // Update active button
+            button.parentElement.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            // Store current filter
+            currentTypeFilter = type;
+            
+            // Apply both filters
+            applyFilters();
+        }
+        
+        // Filter patterns by status
+        function filterByStatus(status, button) {
+            // Update active button
+            button.parentElement.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            // Store current filter
+            currentStatusFilter = status;
+            
+            // Apply both filters
+            applyFilters();
+        }
+        
+        // Apply both type and status filters
+        function applyFilters() {
+            const cards = document.querySelectorAll('.pattern-card');
+            
+            cards.forEach(card => {
+                const cardType = card.dataset.type;
+                const cardStatus = card.dataset.status;
+                
+                // Check if card matches both filters
+                const typeMatch = currentTypeFilter === 'all' || cardType === currentTypeFilter;
+                const statusMatch = currentStatusFilter === 'all' || cardStatus === currentStatusFilter;
+                
+                // Show/hide card based on filters
+                if (typeMatch && statusMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Show pattern detail modal
+        function showPatternDetail(patternId) {
+            const modal = document.getElementById('pattern-modal');
+            modal.classList.add('active');
+            
+            // Load pattern details
+            document.getElementById('modal-pattern-name').textContent = 
+                event.currentTarget.querySelector('.pattern-name').textContent;
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('pattern-modal').classList.remove('active');
+        }
+        
+        // Create new pattern
+        function createNewPattern() {
+            console.log('Opening pattern creator...');
+            // Would open pattern creation interface
+        }
+        
+        // Close modal on overlay click
+        document.getElementById('pattern-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

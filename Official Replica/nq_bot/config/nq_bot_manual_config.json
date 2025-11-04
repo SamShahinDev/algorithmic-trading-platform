@@ -1,0 +1,58 @@
+{
+  "instrument": "NQ",
+  "instruments": ["NQ"],
+  "max_position_size": 1,
+  "max_loss_per_trade": 100,
+  "daily_loss_limit": 500,
+  "stop_distance": 20,
+  "target_distance": 40,
+  
+  "position_system": {
+    "adopt_existing_positions": false,
+    "cancel_orphaned_orders": true,
+    "flatten_on_startup": false,
+    "flatten_on_shutdown": true,
+    "polling_interval": 30
+  },
+  
+  "manual_detection": {
+    "quick_sync_interval": 15,
+    "robust_check_interval": 5,
+    "enable_streaming": true,
+    "streaming_fallback_to_polling": true,
+    
+    "require_bot_flags": true,
+    "position_lock_timeout": 5.0,
+    
+    "alerts": {
+      "sound_alerts": true,
+      "rate_limit_seconds": 120,
+      "alert_file": "logs/manual_alerts.jsonl",
+      "dashboard_url": null
+    },
+    
+    "separate_manual_performance": true,
+    "track_intervention_patterns": true,
+    
+    "cooldown_seconds": 60,
+    "cancel_orders_on_manual": true,
+    "clear_pattern_memory": true,
+    
+    "task_restart_delay": 10,
+    "max_task_restarts": 5,
+    
+    "enable_quick_detection": true,
+    "enable_robust_detection": true,
+    "enable_streaming": true
+  },
+  
+  "broker": {
+    "account_type": "Combine",
+    "environment": "production"
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "file": "logs/nq_bot_manual_detection.log"
+  }
+}

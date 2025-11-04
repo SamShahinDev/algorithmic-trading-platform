@@ -1,0 +1,73 @@
+{
+  "description": "Relaxed NQ patterns for immediate trading with 1:2 R/R",
+  "updated": "2025-08-27",
+  "risk_reward": "1:2 (5 points : 10 points)",
+  "patterns": [
+    {
+      "name": "gentle_mean_reversion",
+      "type": "mean_reversion",
+      "description": "Relaxed Bollinger Band reversal",
+      "parameters": {
+        "bb_period": 20,
+        "bb_std": 2.0,
+        "rsi_period": 14,
+        "rsi_oversold": 40,
+        "rsi_overbought": 60
+      },
+      "expected_performance": {
+        "win_rate": 0.40,
+        "stop_points": 5,
+        "target_points": 10,
+        "daily_setups": 4
+      }
+    },
+    {
+      "name": "volume_momentum",
+      "type": "momentum",
+      "description": "Volume-confirmed momentum",
+      "parameters": {
+        "volume_multiplier": 1.5,
+        "price_move_threshold": 0.0015,
+        "lookback_bars": 10
+      },
+      "expected_performance": {
+        "win_rate": 0.38,
+        "stop_points": 5,
+        "target_points": 10,
+        "daily_setups": 3
+      }
+    },
+    {
+      "name": "micro_breakout",
+      "type": "breakout",
+      "description": "Small range breakout",
+      "parameters": {
+        "lookback": 20,
+        "breakout_buffer": 1,
+        "volume_confirm": 1.2
+      },
+      "expected_performance": {
+        "win_rate": 0.36,
+        "stop_points": 5,
+        "target_points": 10,
+        "daily_setups": 5
+      }
+    },
+    {
+      "name": "quick_reversal",
+      "type": "reversal",
+      "description": "Quick spike reversal",
+      "parameters": {
+        "spike_bars": 3,
+        "spike_threshold": 3,
+        "rsi_extreme": 35
+      },
+      "expected_performance": {
+        "win_rate": 0.35,
+        "stop_points": 5,
+        "target_points": 10,
+        "daily_setups": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "symbol": "ES",
+  "tick_size": 0.25,
+  "tick_value": 12.50,
+  "max_position_size": 1,
+  "risk_per_trade": 50,
+  "daily_loss_limit": -250,
+  "max_consecutive_losses": 3,
+  "min_trade_interval_seconds": 60,
+  "trading_enabled": true,
+  "paper_trading": true,
+  "patterns": [
+    {
+      "name": "ES_volume_surge_up_hold5",
+      "win_rate": 0.724,
+      "samples": 1198,
+      "hold_minutes": 5,
+      "entry": "volume > 2x average",
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003,
+      "enabled": true
+    },
+    {
+      "name": "ES_volume_surge_up_hold10",
+      "win_rate": 0.709,
+      "samples": 1198,
+      "hold_minutes": 10,
+      "entry": "volume > 2x average",
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003,
+      "enabled": true
+    },
+    {
+      "name": "ES_oversold_bounce_hold30",
+      "win_rate": 0.647,
+      "samples": 34,
+      "hold_minutes": 30,
+      "entry": "RSI < 30 & price < lower_bb",
+      "stop_loss_pct": 0.003,
+      "target_pct": 0.005,
+      "enabled": true
+    },
+    {
+      "name": "ES_power_hour_bearish",
+      "win_rate": 0.520,
+      "samples": 1890,
+      "hold_minutes": 15,
+      "entry": "time >= 14:30",
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003,
+      "enabled": false
+    }
+  ],
+  "technical_indicators": {
+    "rsi_period": 14,
+    "bb_period": 20,
+    "bb_std": 2,
+    "buffer_size": 100
+  },
+  "market_hours": {
+    "open_time": "18:00",
+    "close_time": "17:00",
+    "timezone": "America/New_York"
+  }
+}

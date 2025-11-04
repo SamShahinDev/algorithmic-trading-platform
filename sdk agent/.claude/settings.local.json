@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/royaltyvixion/Documents/XTRADING/**)",
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "Bash(chmod:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(find:*)",
+      "Bash(pkill:*)",
+      "Bash(awk:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(ps:*)",
+      "Read(//Users/royaltyvixion/Library/CloudStorage/GoogleDrive-sam@novagent.io/My Drive/PROJECTXTX/**)",
+      "Bash(xargs kill:*)",
+      "Bash(pgrep:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

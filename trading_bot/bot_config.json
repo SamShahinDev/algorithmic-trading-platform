@@ -1,0 +1,22 @@
+{
+    "api_key": "YOUR_TOPSTEP_API_KEY",
+    "api_secret": "YOUR_TOPSTEP_API_SECRET",
+    "base_url": "https://api.topstepx.com",
+    "account_id": 12345,
+    "contract_id": "NQ-CONTRACT-ID",
+    "symbol": "NQ",
+    "initial_capital": 150000,
+    "position_size": 1,
+    "max_daily_loss": 3000,
+    "max_daily_trades": 10,
+    "use_patterns": true,
+    "use_technical_analysis": true,
+    "pattern_min_confidence": 40,
+    "ta_min_confidence": 30,
+    "enable_trailing_stops": true,
+    "enable_atr_stops": true,
+    "monitoring_port": 8080,
+    "log_level": "INFO",
+    "data_provider": "topstep",
+    "environment": "production"
+}

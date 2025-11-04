@@ -1,0 +1,182 @@
+{
+  "discovery_date": "2025-08-27T01:10:32.086084",
+  "patterns": [
+    {
+      "type": "mean_reversion",
+      "params": {
+        "bb_period": 15,
+        "bb_std": 2.5,
+        "rsi_period": 10
+      },
+      "train_performance": {
+        "trades": 7189,
+        "win_rate": 0.9439421338155516,
+        "avg_win": 284307.23655761866,
+        "avg_loss": 264.0361290322581,
+        "profit_factor": 18131.484631023646,
+        "total_pnl": 1929202500.7201116,
+        "expectancy": 268354.7782334122,
+        "avg_bars": 26.220614828209765,
+        "sharpe": 444.10119795790524
+      },
+      "test_performance": {
+        "trades": 1629,
+        "win_rate": 0.943523634131369,
+        "avg_win": 314161.12671437865,
+        "avg_loss": 194.79173913043482,
+        "profit_factor": 26944.364871289894,
+        "total_pnl": 482847730.92000765,
+        "expectancy": 296407.4468508287,
+        "avg_bars": 25.26028238182934,
+        "sharpe": 428.67521059479395
+      }
+    },
+    {
+      "type": "mean_reversion",
+      "params": {
+        "bb_period": 25,
+        "bb_std": 1.5,
+        "rsi_period": 21
+      },
+      "train_performance": {
+        "trades": 5098,
+        "win_rate": 0.9401726167124362,
+        "avg_win": 294462.85575631127,
+        "avg_loss": 375.56262295081973,
+        "profit_factor": 12321.277695191862,
+        "total_pnl": 1411245921.040074,
+        "expectancy": 276823.4446920361,
+        "avg_bars": 27.576500588466065,
+        "sharpe": 465.7844494822447
+      },
+      "test_performance": {
+        "trades": 1185,
+        "win_rate": 0.9156118143459916,
+        "avg_win": 313436.7435944701,
+        "avg_loss": 292.51000000000005,
+        "profit_factor": 11626.230446822308,
+        "total_pnl": 340049615.7999996,
+        "expectancy": 286961.7010970464,
+        "avg_bars": 26.61940928270042,
+        "sharpe": 407.88777258877985
+      }
+    },
+    {
+      "type": "mean_reversion",
+      "params": {
+        "bb_period": 20,
+        "bb_std": 2.0,
+        "rsi_period": 14
+      },
+      "train_performance": {
+        "trades": 7096,
+        "win_rate": 0.9340473506200676,
+        "avg_win": 284971.9198008449,
+        "avg_loss": 2099.588376068377,
+        "profit_factor": 1922.226477562805,
+        "total_pnl": 1887811277.0801096,
+        "expectancy": 266038.7932750845,
+        "avg_bars": 26.616967305524238,
+        "sharpe": 438.241751836889
+      },
+      "test_performance": {
+        "trades": 1628,
+        "win_rate": 0.914004914004914,
+        "avg_win": 313903.1191129032,
+        "avg_loss": 6847.862857142858,
+        "profit_factor": 487.2091910635781,
+        "total_pnl": 466129140.4400063,
+        "expectancy": 286320.11083538085,
+        "avg_bars": 26.062653562653562,
+        "sharpe": 406.69410377836556
+      }
+    },
+    {
+      "type": "volume_spike",
+      "params": {
+        "vol_mult": 4.0,
+        "price_move": 0.004
+      },
+      "train_performance": {
+        "trades": 2436,
+        "win_rate": 0.6009852216748769,
+        "avg_win": 74137.50937158467,
+        "avg_loss": 69165.17534979426,
+        "profit_factor": 1.6144526843080844,
+        "total_pnl": 41308763.279997885,
+        "expectancy": 16957.62039408866,
+        "avg_bars": 27.74425287356322,
+        "sharpe": 31.807137655609868
+      },
+      "test_performance": {
+        "trades": 492,
+        "win_rate": 0.6524390243902439,
+        "avg_win": 96734.72922118378,
+        "avg_loss": 62037.093099415215,
+        "profit_factor": 2.927115791238041,
+        "total_pnl": 20443505.160000116,
+        "expectancy": 41551.83975609754,
+        "avg_bars": 27.402439024390244,
+        "sharpe": 70.00685293482654
+      }
+    },
+    {
+      "type": "volume_spike",
+      "params": {
+        "vol_mult": 3.0,
+        "price_move": 0.003
+      },
+      "train_performance": {
+        "trades": 5334,
+        "win_rate": 0.5967379077615298,
+        "avg_win": 58148.29432610744,
+        "avg_loss": 45198.00907484892,
+        "profit_factor": 1.9037674768077835,
+        "total_pnl": 87865103.3200063,
+        "expectancy": 16472.647791526048,
+        "avg_bars": 25.073490813648295,
+        "sharpe": 36.172780671836875
+      },
+      "test_performance": {
+        "trades": 965,
+        "win_rate": 0.5948186528497409,
+        "avg_win": 82217.20299651567,
+        "avg_loss": 46946.00081841432,
+        "profit_factor": 2.570983154792148,
+        "total_pnl": 28836788.20000029,
+        "expectancy": 29882.682072538846,
+        "avg_bars": 25.39896373056995,
+        "sharpe": 55.63380462491792
+      }
+    },
+    {
+      "type": "volume_spike",
+      "params": {
+        "vol_mult": 2.5,
+        "price_move": 0.002
+      },
+      "train_performance": {
+        "trades": 8111,
+        "win_rate": 0.5851313031685366,
+        "avg_win": 49181.35399915718,
+        "avg_loss": 35133.37616641903,
+        "profit_factor": 1.974345984116966,
+        "total_pnl": 115190895.28001447,
+        "expectancy": 14201.811771668094,
+        "avg_bars": 22.5626926396252,
+        "sharpe": 34.4308933901251
+      },
+      "test_performance": {
+        "trades": 1404,
+        "win_rate": 0.5819088319088319,
+        "avg_win": 72437.9659241126,
+        "avg_loss": 42171.11795570699,
+        "profit_factor": 2.3907550823887536,
+        "total_pnl": 34427371.91999828,
+        "expectancy": 24520.92017094016,
+        "avg_bars": 23.707264957264957,
+        "sharpe": 48.44652483816328
+      }
+    }
+  ]
+}

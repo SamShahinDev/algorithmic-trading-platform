@@ -1,0 +1,102 @@
+/Users/royaltyvixion/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🎯 Enhanced Smart Scalper initialized with database integration
+📊 Strategy Manager initialized with priority matrix
+🛡️ Risk Management System initialized
+TopStepX Compliance initialized for evaluation account
+🎭 Strategy Orchestrator initialized
+🤖 Manus Strategy Importer initialized
+INFO:     Will watch for changes in these directories: ['/Users/royaltyvixion/Documents/XTRADING/web_platform/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [68110] using WatchFiles
+/Users/royaltyvixion/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🎯 Enhanced Smart Scalper initialized with database integration
+📊 Strategy Manager initialized with priority matrix
+🛡️ Risk Management System initialized
+TopStepX Compliance initialized for evaluation account
+🎭 Strategy Orchestrator initialized
+🤖 Manus Strategy Importer initialized
+INFO:     Started server process [68122]
+INFO:     Waiting for application startup.
+📝 20:12:21 - WebPlatform - INFO - 🚀 Starting NQ Trading Platform Backend
+✅ Database initialized at /Users/royaltyvixion/Documents/XTRADING/web_platform/backend/database/trades.db
+📝 20:12:21 - WebPlatform - INFO - ✅ Database initialized
+Warning: No data available for S/R calculation
+📊 Found 0 support levels
+📊 Found 0 resistance levels
+📝 20:12:21 - WebPlatform - INFO - ✅ Smart Scalper initialized
+📝 20:12:21 - WebPlatform - INFO - ⏸️ Monitoring paused - click 'Start Trading' to begin
+Failed to get account info: 0
+📝 20:12:21 - WebPlatform - INFO - ✅ Connected to TopStepX broker
+SignalR connection error: 
+📝 20:12:21 - WebPlatform - WARNING - ⚠️ SignalR connection failed - will use polling
+📝 20:12:21 - WebPlatform - INFO - ✅ Trade analytics service initialized
+📝 20:12:21 - WebPlatform - INFO - 📊 Market condition tracker ready (will activate with trading)
+INFO:     Application startup complete.
+INFO:     ('127.0.0.1', 51395) - "WebSocket /ws" [accepted]
+📝 20:12:23 - WebPlatform - INFO - Client connected. Total connections: 1
+INFO:     connection open
+INFO:     ('127.0.0.1', 51397) - "WebSocket /ws/ai-thoughts" [accepted]
+INFO:     connection open
+📝 20:12:28 - WebPlatform - INFO - 🔍 Pattern discovery started
+🚀 Strategy Orchestrator started
+🔄 Rotating strategies...
+🛑 All strategies deactivated
+✅ Activated: Mean Reversion (Support/Resistance) (Tier 1, Score: 0.94)
+✅ Activated: Engulfing Pattern Reversal (Tier 1, Score: 0.92)
+✅ Activated: Volume Profile Trading (Tier 2, Score: 0.78)
+📊 Active strategies: ['Mean Reversion (Support/Resistance)', 'Engulfing Pattern Reversal', 'Volume Profile Trading']
+📝 20:12:28 - WebPlatform - INFO - 🎭 Strategy orchestrator started
+INFO:     127.0.0.1:51406 - "POST /api/control/start HTTP/1.1" 200 OK
+/Users/royaltyvixion/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🎯 Enhanced Smart Scalper initialized with database integration
+📊 Strategy Manager initialized with priority matrix
+🛡️ Risk Management System initialized
+TopStepX Compliance initialized for evaluation account
+🎭 Strategy Orchestrator initialized
+🤖 Manus Strategy Importer initialized
+INFO:     Will watch for changes in these directories: ['/Users/royaltyvixion/Documents/XTRADING/web_platform/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [40828] using WatchFiles
+/Users/royaltyvixion/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🎯 Enhanced Smart Scalper initialized with database integration
+📊 Strategy Manager initialized with priority matrix
+🛡️ Risk Management System initialized
+TopStepX Compliance initialized for evaluation account
+🎭 Strategy Orchestrator initialized
+🤖 Manus Strategy Importer initialized
+INFO:     Started server process [40840]
+INFO:     Waiting for application startup.
+📝 22:02:03 - WebPlatform - INFO - 🚀 Starting NQ Trading Platform Backend
+✅ Database initialized at /Users/royaltyvixion/Documents/XTRADING/web_platform/backend/database/trades.db
+📝 22:02:03 - WebPlatform - INFO - ✅ Database initialized
+Warning: No data available for S/R calculation
+📊 Found 0 support levels
+📊 Found 0 resistance levels
+📝 22:02:03 - WebPlatform - INFO - ✅ Smart Scalper initialized
+📝 22:02:03 - WebPlatform - INFO - ⏸️ Monitoring paused - click 'Start Trading' to begin
+Failed to get account info: 0
+📝 22:02:03 - WebPlatform - INFO - ✅ Connected to TopStepX broker
+SignalR connection error: 
+📝 22:02:03 - WebPlatform - WARNING - ⚠️ SignalR connection failed - will use polling
+📝 22:02:03 - WebPlatform - INFO - ✅ Trade analytics service initialized
+📝 22:02:03 - WebPlatform - INFO - 📊 Market condition tracker ready (will activate with trading)
+INFO:     Application startup complete.
+INFO:     ('127.0.0.1', 57089) - "WebSocket /ws/ai-thoughts" [accepted]
+INFO:     connection open
+INFO:     ('127.0.0.1', 57091) - "WebSocket /ws" [accepted]
+📝 22:02:03 - WebPlatform - INFO - Client connected. Total connections: 1
+INFO:     connection open
+📝 22:02:10 - WebPlatform - INFO - 🔍 Pattern discovery started
+🚀 Strategy Orchestrator started
+🔄 Rotating strategies...
+🛑 All strategies deactivated
+✅ Activated: Momentum Breakout (Tier 1, Score: 0.91)
+✅ Activated: Engulfing Pattern Reversal (Tier 1, Score: 0.72)
+✅ Activated: Microstructure Order Flow (Tier 2, Score: 0.57)
+📊 Active strategies: ['Momentum Breakout', 'Engulfing Pattern Reversal', 'Microstructure Order Flow']
+📝 22:02:10 - WebPlatform - INFO - 🎭 Strategy orchestrator started
+INFO:     127.0.0.1:57100 - "POST /api/control/start HTTP/1.1" 200 OK

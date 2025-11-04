@@ -1,0 +1,11 @@
+{
+  "discovery_date": "2025-08-27T23:59:05.844247",
+  "criteria": {
+    "min_validation_win_rate": 0.4,
+    "max_performance_degradation": 0.1,
+    "min_net_expectancy": 10.0,
+    "risk_reward": "5:10",
+    "commission": 2.52
+  },
+  "patterns": []
+}

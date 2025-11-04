@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Analytics - NQ Trading Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 8px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 20px;
+            margin-right: 12px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            color: #1f2937;
+        }
+
+        .date-filter {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .date-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .date-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chart-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Performance Table */
+        .performance-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            color: #6b7280;
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            color: #1f2937;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Pattern Win Rate Donut */
+        .donut-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+        }
+
+        .donut-chart {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .donut-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Risk Metrics */
+        .risk-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .risk-item {
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .risk-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .risk-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Live Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: #10b981;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.875rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Chart Placeholder */
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            📈 NQ Trader
+        </div>
+        
+        <nav>
+            <a href="/frontend/dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+            <a href="/frontend/patterns.html" class="nav-item">
+                <span class="nav-icon">🎯</span>
+                Patterns
+            </a>
+            <a href="/frontend/performance.html" class="nav-item active">
+                <span class="nav-icon">📈</span>
+                Performance
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📝</span>
+                Trade History
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔧</span>
+                Risk Controls
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Performance Analytics</h1>
+            <div class="date-filter">
+                <button class="date-btn active" data-range="today">Today</button>
+                <button class="date-btn" data-range="week">7 Days</button>
+                <button class="date-btn" data-range="month">30 Days</button>
+                <button class="date-btn" data-range="ytd">YTD</button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total P&L</div>
+                <div class="stat-value" id="total-pnl">$2,847</div>
+                <div class="stat-change positive">↑ 12.5% from yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="win-rate">89.5%</div>
+                <div class="stat-change positive">↑ 2.3% improvement</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Sharpe Ratio</div>
+                <div class="stat-value" id="sharpe">4.2</div>
+                <div class="stat-change positive">Excellent risk-adjusted returns</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Max Drawdown</div>
+                <div class="stat-value" id="drawdown">-$380</div>
+                <div class="stat-change">Within risk limits</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <!-- P&L Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Cumulative P&L</h3>
+                    <div class="chart-tabs">
+                        <button class="chart-tab active">Line</button>
+                        <button class="chart-tab">Bar</button>
+                        <button class="chart-tab">Area</button>
+                    </div>
+                </div>
+                <canvas id="pnl-chart" height="300"></canvas>
+            </div>
+
+            <!-- Win Rate Donut -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Pattern Performance</h3>
+                    <span class="live-badge">
+                        <span class="live-dot"></span>
+                        Live
+                    </span>
+                </div>
+                <div class="donut-container">
+                    <div class="donut-chart">
+                        <canvas id="winrate-donut"></canvas>
+                        <div class="donut-center">
+                            <div class="donut-value">89.5%</div>
+                            <div class="donut-label">Win Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Metrics -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title">Risk Metrics</h3>
+            </div>
+            <div class="risk-metrics">
+                <div class="risk-item">
+                    <div class="risk-label">Daily Loss Limit Used</div>
+                    <div class="risk-value">38%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 38%"></div>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <div class="risk-label">Max Position Risk</div>
+                    <div class="risk-value">$100</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%"></div>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <div class="risk-label">Trades Today</div>
+                    <div class="risk-value">12 / 25</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 48%"></div>
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <div class="risk-label">Consecutive Losses</div>
+                    <div class="risk-value">0</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Table -->
+        <div class="performance-table">
+            <div class="table-header">
+                <h3 class="table-title">Pattern Performance Breakdown</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Trades</th>
+                        <th>Win Rate</th>
+                        <th>Avg P&L</th>
+                        <th>Total P&L</th>
+                        <th>Sharpe</th>
+                    </tr>
+                </thead>
+                <tbody id="pattern-performance">
+                    <tr>
+                        <td>S/R Bounce</td>
+                        <td>142</td>
+                        <td><span style="color: #10b981">89.5%</span></td>
+                        <td>$356</td>
+                        <td><strong>$50,552</strong></td>
+                        <td>5.2</td>
+                    </tr>
+                    <tr>
+                        <td>VWAP Bounce</td>
+                        <td>89</td>
+                        <td><span style="color: #10b981">76.3%</span></td>
+                        <td>$145</td>
+                        <td><strong>$12,905</strong></td>
+                        <td>3.8</td>
+                    </tr>
+                    <tr>
+                        <td>Opening Range</td>
+                        <td>67</td>
+                        <td><span style="color: #10b981">82.1%</span></td>
+                        <td>$382</td>
+                        <td><strong>$25,594</strong></td>
+                        <td>4.5</td>
+                    </tr>
+                    <tr>
+                        <td>Mean Reversion</td>
+                        <td>103</td>
+                        <td><span style="color: #f59e0b">68.9%</span></td>
+                        <td>$61</td>
+                        <td><strong>$6,283</strong></td>
+                        <td>2.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize P&L Chart
+        const pnlCtx = document.getElementById('pnl-chart').getContext('2d');
+        const pnlChart = new Chart(pnlCtx, {
+            type: 'line',
+            data: {
+                labels: ['9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '1:00', '1:30', '2:00', '2:30', '3:00', '3:30', '4:00'],
+                datasets: [{
+                    label: 'Cumulative P&L',
+                    data: [0, 420, 380, 720, 680, 1100, 1050, 1400, 1750, 2100, 2050, 2400, 2600, 2847],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize Win Rate Donut
+        const donutCtx = document.getElementById('winrate-donut').getContext('2d');
+        const donutChart = new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Wins', 'Losses'],
+                datasets: [{
+                    data: [89.5, 10.5],
+                    backgroundColor: ['#10b981', '#ef4444'],
+                    borderWidth: 0,
+                    cutout: '70%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Date filter functionality
+        document.querySelectorAll('.date-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                loadPerformanceData(this.dataset.range);
+            });
+        });
+
+        // Chart tab functionality
+        document.querySelectorAll('.chart-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                updateChartType(this.textContent.toLowerCase());
+            });
+        });
+
+        function updateChartType(type) {
+            pnlChart.config.type = type;
+            pnlChart.update();
+        }
+
+        // Load performance data from API
+        async function loadPerformanceData(timeframe) {
+            try {
+                const response = await fetch('/api/performance');
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('total-pnl').textContent = `$${data.daily_pnl || 0}`;
+                document.getElementById('win-rate').textContent = `${data.win_rate || 0}%`;
+                
+                // You can expand this to load different data based on timeframe
+                console.log(`Loading ${timeframe} data...`);
+            } catch (error) {
+                console.error('Error loading performance data:', error);
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            const activeRange = document.querySelector('.date-btn.active').dataset.range;
+            loadPerformanceData(activeRange);
+        }, 30000);
+
+        // Initial load
+        loadPerformanceData('today');
+    </script>
+</body>
+</html>

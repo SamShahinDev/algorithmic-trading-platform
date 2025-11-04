@@ -1,0 +1,42 @@
+[
+  {
+    "name": "CL_volume_surge_down_hold5",
+    "market": "CL",
+    "entry_conditions": {
+      "pattern_type": "volume_surge",
+      "direction": "down",
+      "volume_multiplier": 2
+    },
+    "exit_conditions": {
+      "hold_period": 5,
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 2985,
+      "win_rate": 0.7386934673366834,
+      "avg_pnl": 0.015834117443265218
+    }
+  },
+  {
+    "name": "CL_volume_surge_down_hold10",
+    "market": "CL",
+    "entry_conditions": {
+      "pattern_type": "volume_surge",
+      "direction": "down",
+      "volume_multiplier": 2
+    },
+    "exit_conditions": {
+      "hold_period": 10,
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 2985,
+      "win_rate": 0.754103852596315,
+      "avg_pnl": 0.01625297490631112
+    }
+  }
+]

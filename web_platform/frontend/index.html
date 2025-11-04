@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NQ Trading Platform - Smart Scalper</title>
+    
+    <!-- NovaGent Design System inspired styling -->
+    <style>
+        :root {
+            /* NovaGent Light Theme Palette */
+            --primary: #8B5CF6;  /* Purple accent */
+            --primary-hover: #7C3AED;
+            --primary-light: #EDE9FE;
+            --background: #FFFFFF;
+            --surface: rgba(255, 255, 255, 0.95);
+            --surface-hover: rgba(249, 250, 251, 1);
+            --border: rgba(229, 231, 235, 0.8);
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --text-dim: #9CA3AF;
+            --success: #10B981;
+            --error: #EF4444;
+            --warning: #F59E0B;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: #FAFAFA;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* NovaGent light gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(196, 181, 253, 0.04) 0%, transparent 50%),
+                linear-gradient(180deg, #FFFFFF 0%, #FAF9FF 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Ensure content is above gradient */
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 0 20px rgba(139, 92, 246, 0.03);
+        }
+        
+        .card:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-title {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .card-value {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .card-change {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+        }
+        
+        .positive { color: var(--success); }
+        .negative { color: var(--error); }
+        
+        /* Chart Container */
+        .chart-container {
+            grid-column: span 2;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 0 20px rgba(139, 92, 246, 0.03);
+        }
+        
+        /* Levels Display */
+        .levels-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 0 20px rgba(139, 92, 246, 0.03);
+        }
+        
+        .level-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+        }
+        
+        .level-item:last-child {
+            border-bottom: none;
+        }
+        
+        .level-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .level-type {
+            width: 4px;
+            height: 16px;
+            border-radius: 2px;
+        }
+        
+        .resistance { background: var(--error); }
+        .support { background: var(--success); }
+        
+        .level-price {
+            font-weight: 500;
+        }
+        
+        .level-distance {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+        }
+        
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: rgba(243, 244, 246, 1);
+            color: var(--text-primary);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(229, 231, 235, 1);
+            transform: translateY(-1px);
+        }
+        
+        /* Position Card */
+        .position-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(255, 255, 255, 0.95));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+        }
+        
+        .position-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .position-direction {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .long { background: var(--success); }
+        .short { background: var(--error); }
+        
+        /* Alerts */
+        .alert {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(245, 158, 11, 0.15);  /* Semi-transparent warning color */
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.875rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Alerts container with fixed positioning */
+        #alerts-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">📈</div>
+            <span>NQ Smart Scalper</span>
+        </div>
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span id="connection-status">Connected</span>
+        </div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn" id="start-btn" onclick="startMonitoring()">Start Trading</button>
+            <button class="btn btn-secondary" id="stop-btn" onclick="stopMonitoring()">Stop Trading</button>
+            <button class="btn btn-secondary" onclick="resetStats()">Reset Daily Stats</button>
+        </div>
+        
+        <!-- Alerts -->
+        <div id="alerts-container"></div>
+        
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Current Price Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">NQ Current Price</span>
+                </div>
+                <div class="card-value" id="current-price">--</div>
+                <div class="card-change" id="price-change">--</div>
+            </div>
+            
+            <!-- Daily P&L Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Daily P&L</span>
+                </div>
+                <div class="card-value" id="daily-pnl">$0.00</div>
+                <div class="card-change" id="trades-count">0 trades today</div>
+            </div>
+            
+            <!-- Win Rate Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Target Win Rate</span>
+                </div>
+                <div class="card-value">89.5%</div>
+                <div class="card-change">S/R Bounce Pattern</div>
+            </div>
+            
+            <!-- Chart Container -->
+            <div class="chart-container" id="chart">
+                <div style="width: 100%; height: 100%;" id="tradingview-widget"></div>
+            </div>
+            
+            <!-- Support/Resistance Levels -->
+            <div class="levels-container">
+                <h3 style="margin-bottom: var(--spacing-md); font-size: 1rem;">Key Levels</h3>
+                <div id="levels-list">
+                    <!-- Levels will be inserted here -->
+                </div>
+            </div>
+            
+            <!-- Active Position (if any) -->
+            <div class="card position-card" id="position-card" style="display: none;">
+                <div class="position-header">
+                    <span class="card-title">Active Position</span>
+                    <span class="position-direction" id="position-direction">--</span>
+                </div>
+                <div style="display: grid; gap: var(--spacing-sm);">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">Entry</span>
+                        <span id="position-entry">--</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">Stop Loss</span>
+                        <span id="position-stop">--</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">Target</span>
+                        <span id="position-target">--</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">Unrealized P&L</span>
+                        <span id="position-pnl" class="positive">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TradingView Widget Script -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script>
+        // WebSocket connection
+        let ws = null;
+        let reconnectInterval = null;
+        
+        // Connect to WebSocket
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:8000/ws');
+            
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                updateConnectionStatus(true);
+                clearInterval(reconnectInterval);
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                handleWebSocketMessage(data);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                updateConnectionStatus(false);
+            };
+            
+            ws.onclose = () => {
+                console.log('WebSocket disconnected');
+                updateConnectionStatus(false);
+                
+                // Attempt to reconnect
+                if (!reconnectInterval) {
+                    reconnectInterval = setInterval(() => {
+                        console.log('Attempting to reconnect...');
+                        connectWebSocket();
+                    }, 5000);
+                }
+            };
+        }
+        
+        // Handle WebSocket messages
+        function handleWebSocketMessage(data) {
+            switch(data.type) {
+                case 'connected':
+                    updateInitialData(data.data);
+                    break;
+                case 'status_update':
+                    updateDashboard(data.data);
+                    break;
+                case 'trade_alert':
+                    showAlert(data.data.message, data.data.type);
+                    break;
+                default:
+                    console.log('Unknown message type:', data.type);
+            }
+        }
+        
+        // Update connection status
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connection-status');
+            const statusDot = document.querySelector('.status-dot');
+            
+            if (connected) {
+                statusElement.textContent = 'Connected';
+                statusDot.style.background = 'var(--success)';
+            } else {
+                statusElement.textContent = 'Disconnected';
+                statusDot.style.background = 'var(--error)';
+            }
+        }
+        
+        // Update dashboard with new data
+        function updateDashboard(data) {
+            // Update current price
+            if (data.current_price) {
+                const priceElement = document.getElementById('current-price');
+                const oldPrice = parseFloat(priceElement.textContent.replace(/[^0-9.-]/g, '')) || 0;
+                const newPrice = data.current_price;
+                
+                priceElement.textContent = `$${newPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                // Show price change
+                if (oldPrice > 0) {
+                    const change = newPrice - oldPrice;
+                    const changeElement = document.getElementById('price-change');
+                    changeElement.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)} points`;
+                    changeElement.className = change >= 0 ? 'card-change positive' : 'card-change negative';
+                }
+            }
+            
+            // Update levels
+            updateLevels(data);
+            
+            // Update position if exists
+            if (data.current_position) {
+                showPosition(data.current_position, data.current_price);
+            } else {
+                hidePosition();
+            }
+            
+            // Check for alerts
+            checkForAlerts(data);
+        }
+        
+        // Update support/resistance levels
+        function updateLevels(data) {
+            const levelsContainer = document.getElementById('levels-list');
+            levelsContainer.innerHTML = '';
+            
+            const currentPrice = data.current_price || 0;
+            
+            // Add resistance levels
+            if (data.resistance_levels) {
+                data.resistance_levels.forEach((level, i) => {
+                    const distance = level - currentPrice;
+                    const approaching = Math.abs(distance) <= 10;
+                    
+                    const levelDiv = document.createElement('div');
+                    levelDiv.className = 'level-item';
+                    levelDiv.innerHTML = `
+                        <div class="level-label">
+                            <div class="level-type resistance"></div>
+                            <span>R${i + 1}</span>
+                        </div>
+                        <div>
+                            <span class="level-price">$${level.toFixed(2)}</span>
+                            <span class="level-distance">${distance >= 0 ? '+' : ''}${distance.toFixed(2)}</span>
+                            ${approaching ? '<span style="color: var(--warning); margin-left: 8px;">⚠️</span>' : ''}
+                        </div>
+                    `;
+                    levelsContainer.appendChild(levelDiv);
+                });
+            }
+            
+            // Add current price indicator
+            const currentDiv = document.createElement('div');
+            currentDiv.className = 'level-item';
+            currentDiv.style.background = 'var(--primary)';
+            currentDiv.style.background = 'linear-gradient(90deg, transparent, var(--primary), transparent)';
+            currentDiv.style.opacity = '0.2';
+            currentDiv.innerHTML = `
+                <div class="level-label">
+                    <span style="font-weight: 600;">Current</span>
+                </div>
+                <div>
+                    <span class="level-price" style="font-weight: 600;">$${currentPrice.toFixed(2)}</span>
+                </div>
+            `;
+            levelsContainer.appendChild(currentDiv);
+            
+            // Add support levels
+            if (data.support_levels) {
+                data.support_levels.slice().reverse().forEach((level, i) => {
+                    const distance = currentPrice - level;
+                    const approaching = Math.abs(distance) <= 10;
+                    
+                    const levelDiv = document.createElement('div');
+                    levelDiv.className = 'level-item';
+                    levelDiv.innerHTML = `
+                        <div class="level-label">
+                            <div class="level-type support"></div>
+                            <span>S${i + 1}</span>
+                        </div>
+                        <div>
+                            <span class="level-price">$${level.toFixed(2)}</span>
+                            <span class="level-distance">${distance >= 0 ? '+' : ''}${distance.toFixed(2)}</span>
+                            ${approaching ? '<span style="color: var(--warning); margin-left: 8px;">⚠️</span>' : ''}
+                        </div>
+                    `;
+                    levelsContainer.appendChild(levelDiv);
+                });
+            }
+        }
+        
+        // Show active position
+        function showPosition(position, currentPrice) {
+            const card = document.getElementById('position-card');
+            card.style.display = 'block';
+            
+            document.getElementById('position-direction').textContent = position.direction.toUpperCase();
+            document.getElementById('position-direction').className = `position-direction ${position.direction}`;
+            document.getElementById('position-entry').textContent = `$${position.entry_price.toFixed(2)}`;
+            document.getElementById('position-stop').textContent = `$${position.stop_loss.toFixed(2)}`;
+            document.getElementById('position-target').textContent = `$${position.take_profit.toFixed(2)}`;
+            
+            // Calculate unrealized P&L
+            let unrealized = 0;
+            if (position.direction === 'long') {
+                unrealized = (currentPrice - position.entry_price) * 20;
+            } else {
+                unrealized = (position.entry_price - currentPrice) * 20;
+            }
+            
+            const pnlElement = document.getElementById('position-pnl');
+            pnlElement.textContent = `$${unrealized >= 0 ? '+' : ''}${unrealized.toFixed(2)}`;
+            pnlElement.className = unrealized >= 0 ? 'positive' : 'negative';
+        }
+        
+        // Hide position card
+        function hidePosition() {
+            document.getElementById('position-card').style.display = 'none';
+        }
+        
+        // Track shown alerts to prevent duplicates
+        let shownAlerts = new Set();
+        let currentAlerts = new Set();
+        
+        // Check for alerts
+        function checkForAlerts(data) {
+            // Clear current alerts for this cycle
+            currentAlerts.clear();
+            
+            if (data.next_support && data.current_price) {
+                if (data.current_price - data.next_support <= 5) {
+                    const alertKey = `support_${data.next_support.toFixed(0)}`;
+                    currentAlerts.add(alertKey);
+                    
+                    // Only show if not already shown
+                    if (!shownAlerts.has(alertKey)) {
+                        showAlert(`Approaching support at $${data.next_support.toFixed(2)}`, 'warning');
+                        shownAlerts.add(alertKey);
+                        
+                        // Remove from shown after 30 seconds so it can alert again if still valid
+                        setTimeout(() => {
+                            shownAlerts.delete(alertKey);
+                        }, 30000);
+                    }
+                }
+            }
+            
+            if (data.next_resistance && data.current_price) {
+                if (data.next_resistance - data.current_price <= 5) {
+                    const alertKey = `resistance_${data.next_resistance.toFixed(0)}`;
+                    currentAlerts.add(alertKey);
+                    
+                    // Only show if not already shown
+                    if (!shownAlerts.has(alertKey)) {
+                        showAlert(`Approaching resistance at $${data.next_resistance.toFixed(2)}`, 'warning');
+                        shownAlerts.add(alertKey);
+                        
+                        // Remove from shown after 30 seconds
+                        setTimeout(() => {
+                            shownAlerts.delete(alertKey);
+                        }, 30000);
+                    }
+                }
+            }
+        }
+        
+        // Show alert
+        function showAlert(message, type = 'info') {
+            const alertsContainer = document.getElementById('alerts-container');
+            
+            // Check if alert already exists
+            const existingAlerts = alertsContainer.querySelectorAll('.alert');
+            for (let existing of existingAlerts) {
+                if (existing.textContent.includes(message)) {
+                    return; // Don't add duplicate
+                }
+            }
+            
+            const alert = document.createElement('div');
+            alert.className = 'alert';
+            alert.style.opacity = '0';
+            alert.innerHTML = `
+                <span>⚠️</span>
+                <span>${message}</span>
+                <span style="margin-left: auto; cursor: pointer;" onclick="this.parentElement.remove()">✕</span>
+            `;
+            
+            alertsContainer.appendChild(alert);
+            
+            // Fade in
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.3s ease';
+                alert.style.opacity = '1';
+            }, 10);
+            
+            // Auto-remove after 10 seconds with fade out
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    alert.remove();
+                }, 300);
+            }, 10000);
+        }
+        
+        // API Functions
+        async function startMonitoring() {
+            try {
+                const response = await fetch('http://localhost:8000/api/control/start', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                showAlert('Trading started', 'success');
+            } catch (error) {
+                console.error('Error starting monitoring:', error);
+                showAlert('Failed to start trading', 'error');
+            }
+        }
+        
+        async function stopMonitoring() {
+            try {
+                const response = await fetch('http://localhost:8000/api/control/stop', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                showAlert('Trading stopped', 'info');
+            } catch (error) {
+                console.error('Error stopping monitoring:', error);
+                showAlert('Failed to stop trading', 'error');
+            }
+        }
+        
+        async function resetStats() {
+            try {
+                const response = await fetch('http://localhost:8000/api/control/reset', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                showAlert('Daily stats reset', 'success');
+                
+                // Update UI
+                document.getElementById('daily-pnl').textContent = '$0.00';
+                document.getElementById('trades-count').textContent = '0 trades today';
+            } catch (error) {
+                console.error('Error resetting stats:', error);
+                showAlert('Failed to reset stats', 'error');
+            }
+        }
+        
+        // Load initial data
+        async function loadInitialData() {
+            try {
+                const response = await fetch('http://localhost:8000/api/status');
+                const data = await response.json();
+                updateDashboard(data);
+                
+                // Update P&L
+                document.getElementById('daily-pnl').textContent = `$${data.daily_pnl >= 0 ? '+' : ''}${data.daily_pnl.toFixed(2)}`;
+                document.getElementById('trades-count').textContent = `${data.trades_today} trades today`;
+                
+            } catch (error) {
+                console.error('Error loading initial data:', error);
+            }
+        }
+        
+        // Initialize TradingView widget
+        function initTradingView() {
+            // Clear any existing widget first
+            const container = document.getElementById('tradingview-widget');
+            if (container) {
+                container.innerHTML = '';
+            }
+            
+            new TradingView.widget({
+                "width": "100%",
+                "height": 400,  // Fixed height instead of percentage
+                "symbol": "NASDAQ:QQQ",  // Using QQQ as proxy for NQ
+                "interval": "5",
+                "timezone": "America/New_York",
+                "theme": "light",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#FFFFFF",
+                "enable_publishing": false,
+                "hide_top_toolbar": true,
+                "hide_legend": false,
+                "save_image": false,
+                "allow_symbol_change": false,
+                "container_id": "tradingview-widget",
+                "studies": [
+                    "VWAP@tv-basicstudies",
+                    "RSI@tv-basicstudies"
+                ],
+                "overrides": {
+                    "paneProperties.background": "#FFFFFF",
+                    "paneProperties.vertGridProperties.color": "#E5E7EB",
+                    "paneProperties.horzGridProperties.color": "#E5E7EB",
+                    "scalesProperties.textColor": "#6B7280"
+                }
+            });
+        }
+        
+        // Track if chart is initialized
+        let chartInitialized = false;
+        
+        // Initialize everything on page load
+        window.onload = () => {
+            connectWebSocket();
+            loadInitialData();
+            
+            // Initialize chart only once
+            if (!chartInitialized) {
+                initTradingView();
+                chartInitialized = true;
+            }
+            
+            // Refresh data every 5 seconds (but not the chart)
+            setInterval(loadInitialData, 5000);
+        };
+    </script>
+</body>
+</html>

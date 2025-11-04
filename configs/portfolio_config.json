@@ -1,0 +1,51 @@
+{
+  "portfolio": {
+    "max_daily_loss": -500,
+    "max_total_risk": 1000,
+    "max_correlation_risk": 0.6,
+    "emergency_stop_loss": -1000,
+    "max_positions": 4,
+    "risk_per_bot": {
+      "ES": 250,
+      "CL": 250
+    }
+  },
+  "bots": [
+    {
+      "name": "ES",
+      "bot_class": "ESBot",
+      "config_path": "configs/es_bot_config.json",
+      "enabled": true
+    },
+    {
+      "name": "CL",
+      "bot_class": "CLBot", 
+      "config_path": "configs/cl_bot_config.json",
+      "enabled": true
+    }
+  ],
+  "data_sources": {
+    "ES": {
+      "historical_path": "/Users/royaltyvixion/Documents/XTRADING/Historical Data/New Data/GLBX-20250828-98YG33QNQH",
+      "data_type": "databento_daily"
+    },
+    "CL": {
+      "historical_path": "/Users/royaltyvixion/Documents/XTRADING/Historical Data/New Data/GLBX-20250828-CR4KVBURP8",
+      "data_type": "databento_daily"
+    }
+  },
+  "monitoring": {
+    "portfolio_check_interval_seconds": 10,
+    "log_level": "INFO",
+    "performance_report_interval_minutes": 60,
+    "save_report_on_shutdown": true
+  },
+  "paper_trading": {
+    "enabled": true,
+    "starting_balance": 10000,
+    "simulate_slippage": true,
+    "slippage_ticks": 1,
+    "simulate_commission": true,
+    "commission_per_contract": 2.00
+  }
+}

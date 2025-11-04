@@ -1,0 +1,53 @@
+{
+  "symbol": "CL",
+  "tick_size": 0.01,
+  "tick_value": 10.00,
+  "max_position_size": 1,
+  "risk_per_trade": 50,
+  "daily_loss_limit": -250,
+  "max_consecutive_losses": 3,
+  "min_trade_interval_seconds": 60,
+  "trading_enabled": true,
+  "paper_trading": true,
+  "patterns": [
+    {
+      "name": "CL_volume_surge_down_hold10",
+      "win_rate": 0.754,
+      "samples": 2985,
+      "hold_minutes": 10,
+      "entry": "volume > 2x average & direction down",
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003,
+      "enabled": true
+    },
+    {
+      "name": "CL_volume_surge_down_hold5",
+      "win_rate": 0.739,
+      "samples": 2985,
+      "hold_minutes": 5,
+      "entry": "volume > 2x average & direction down",
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003,
+      "enabled": true
+    }
+  ],
+  "market_events": {
+    "inventory_day": 2,
+    "inventory_time": "10:30",
+    "avoid_inventory_window_minutes": 30
+  },
+  "trading_sessions": {
+    "asian_start": "18:00",
+    "asian_end": "03:00",
+    "london_open": "03:00",
+    "london_close": "11:30",
+    "us_open": "09:00",
+    "us_close": "16:00",
+    "timezone": "America/New_York"
+  },
+  "volatility_adjustments": {
+    "high_volatility_stop_multiplier": 1.5,
+    "high_volatility_target_multiplier": 1.5,
+    "trade_during_high_volatility": false
+  }
+}

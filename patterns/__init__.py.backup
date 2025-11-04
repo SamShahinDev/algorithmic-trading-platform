@@ -1,0 +1,13 @@
+"""
+Trading Patterns Module
+"""
+
+from patterns.base_pattern import BasePattern, PatternSignal, TradeAction
+from patterns.trend_line_bounce import TrendLineBouncePattern
+
+__all__ = [
+    'BasePattern',
+    'PatternSignal', 
+    'TradeAction',
+    'TrendLineBouncePattern'
+]

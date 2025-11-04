@@ -1,0 +1,103 @@
+{
+  "discovery_date": "2025-08-27T01:12:25.419972",
+  "description": "NQ-optimized patterns with realistic expectations",
+  "patterns": [
+    {
+      "name": "mean_reversion_bb15",
+      "type": "mean_reversion",
+      "description": "Bollinger Band squeeze with RSI confirmation",
+      "parameters": {
+        "bb_period": 15,
+        "bb_std": 2.5,
+        "rsi_period": 10,
+        "rsi_oversold": 25,
+        "rsi_overbought": 75
+      },
+      "expected_performance": {
+        "win_rate": 0.55,
+        "avg_win_points": 4,
+        "avg_loss_points": 3,
+        "avg_bars_held": 25,
+        "daily_setups": 2
+      }
+    },
+    {
+      "name": "volume_spike_fade",
+      "type": "volume_spike",
+      "description": "Fade extreme moves on high volume",
+      "parameters": {
+        "volume_multiplier": 3.0,
+        "price_move_threshold": 0.003,
+        "lookback_bars": 5
+      },
+      "expected_performance": {
+        "win_rate": 0.52,
+        "avg_win_points": 5,
+        "avg_loss_points": 4,
+        "avg_bars_held": 20,
+        "daily_setups": 3
+      }
+    },
+    {
+      "name": "momentum_breakout",
+      "type": "momentum",
+      "description": "Momentum acceleration with volume",
+      "parameters": {
+        "lookback": 15,
+        "volume_multiplier": 2.0,
+        "roc_threshold": 0.002
+      },
+      "expected_performance": {
+        "win_rate": 0.48,
+        "avg_win_points": 6,
+        "avg_loss_points": 4,
+        "avg_bars_held": 15,
+        "daily_setups": 2
+      }
+    },
+    {
+      "name": "range_breakout",
+      "type": "breakout",
+      "description": "Break of consolidation range",
+      "parameters": {
+        "lookback": 20,
+        "volume_confirm": 1.5,
+        "breakout_buffer": 2
+      },
+      "expected_performance": {
+        "win_rate": 0.45,
+        "avg_win_points": 8,
+        "avg_loss_points": 4,
+        "avg_bars_held": 30,
+        "daily_setups": 1
+      }
+    },
+    {
+      "name": "opening_range_breakout",
+      "type": "time_based",
+      "description": "First 30-min range breakout",
+      "parameters": {
+        "range_minutes": 30,
+        "breakout_buffer": 3,
+        "volume_confirm": 1.2,
+        "time_window": [
+          9,
+          10
+        ]
+      },
+      "expected_performance": {
+        "win_rate": 0.5,
+        "avg_win_points": 7,
+        "avg_loss_points": 5,
+        "avg_bars_held": 45,
+        "daily_setups": 1
+      }
+    }
+  ],
+  "risk_parameters": {
+    "max_loss_per_trade": 100,
+    "position_size": 1,
+    "daily_loss_limit": 500,
+    "commission_per_trade": 2.52
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "discovery_date": "2025-08-27T16:42:52.983226",
+  "data_source": "/Users/royaltyvixion/Documents/XTRADING/Historical Data/NQ Data",
+  "risk_reward": "5:10",
+  "commission": 2.52,
+  "min_win_rate": 0.34,
+  "patterns": [
+    {
+      "name": "bollinger_squeeze",
+      "params": {
+        "bb_period": 15,
+        "bb_std": 2.0,
+        "squeeze_threshold": 0.5
+      },
+      "performance": {
+        "signals": 1147,
+        "win_rate": 0.4673060156931125,
+        "net_expectancy": 37.67180470793374,
+        "avg_bars": 4.812554489973845,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 1662,
+        "win_rate": 0.36702767749699156,
+        "net_expectancy": 7.588303249097475,
+        "avg_bars": 4.173886883273165,
+        "profitable": true
+      }
+    },
+    {
+      "name": "bollinger_squeeze",
+      "params": {
+        "bb_period": 20,
+        "bb_std": 2.5,
+        "squeeze_threshold": 0.4
+      },
+      "performance": {
+        "signals": 353,
+        "win_rate": 0.5382436260623229,
+        "net_expectancy": 58.95308781869687,
+        "avg_bars": 5.396600566572238,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 558,
+        "win_rate": 0.35842293906810035,
+        "net_expectancy": 5.006881720430112,
+        "avg_bars": 4.080645161290323,
+        "profitable": true
+      }
+    },
+    {
+      "name": "bollinger_squeeze",
+      "params": {
+        "bb_period": 25,
+        "bb_std": 2.0,
+        "squeeze_threshold": 0.6
+      },
+      "performance": {
+        "signals": 746,
+        "win_rate": 0.4959785522788204,
+        "net_expectancy": 46.273565683646105,
+        "avg_bars": 5.109919571045577,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 1242,
+        "win_rate": 0.38003220611916266,
+        "net_expectancy": 11.489661835748787,
+        "avg_bars": 4.855877616747182,
+        "profitable": true
+      }
+    },
+    {
+      "name": "volume_climax",
+      "params": {
+        "vol_mult": 1.5,
+        "price_move": 0.0015
+      },
+      "performance": {
+        "signals": 10108,
+        "win_rate": 0.4042342698852394,
+        "net_expectancy": 18.75028096557183,
+        "avg_bars": 1.235160269093787,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 7759,
+        "win_rate": 0.3600979507668514,
+        "net_expectancy": 5.509385230055411,
+        "avg_bars": 1.0924088155690166,
+        "profitable": true
+      }
+    },
+    {
+      "name": "volume_climax",
+      "params": {
+        "vol_mult": 2.0,
+        "price_move": 0.002
+      },
+      "performance": {
+        "signals": 6029,
+        "win_rate": 0.40653508044451814,
+        "net_expectancy": 19.440524133355435,
+        "avg_bars": 1.1489467573395256,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 4588,
+        "win_rate": 0.3615954664341761,
+        "net_expectancy": 5.958639930252833,
+        "avg_bars": 1.0010897994768964,
+        "profitable": true
+      }
+    },
+    {
+      "name": "volume_climax",
+      "params": {
+        "vol_mult": 2.5,
+        "price_move": 0.0025
+      },
+      "performance": {
+        "signals": 3439,
+        "win_rate": 0.4041872637394591,
+        "net_expectancy": 18.736179121837726,
+        "avg_bars": 1.105263157894737,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 2622,
+        "win_rate": 0.35392829900839057,
+        "net_expectancy": 3.6584897025171546,
+        "avg_bars": 0.9252479023646072,
+        "profitable": true
+      }
+    },
+    {
+      "name": "momentum_thrust",
+      "params": {
+        "roc_period": 5,
+        "roc_threshold": 0.1
+      },
+      "performance": {
+        "signals": 13854,
+        "win_rate": 0.45293777970261295,
+        "net_expectancy": 33.361333910783884,
+        "avg_bars": 1.2799191569221886,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 11030,
+        "win_rate": 0.43916591115140524,
+        "net_expectancy": 29.22977334542156,
+        "avg_bars": 1.171441523118767,
+        "profitable": true
+      }
+    },
+    {
+      "name": "momentum_thrust",
+      "params": {
+        "roc_period": 10,
+        "roc_threshold": 0.15
+      },
+      "performance": {
+        "signals": 13559,
+        "win_rate": 0.45342576886201047,
+        "net_expectancy": 33.50773065860315,
+        "avg_bars": 1.3032672025960617,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 10621,
+        "win_rate": 0.44506167027586857,
+        "net_expectancy": 30.99850108276058,
+        "avg_bars": 1.1646737595330006,
+        "profitable": true
+      }
+    },
+    {
+      "name": "momentum_thrust",
+      "params": {
+        "roc_period": 15,
+        "roc_threshold": 0.2
+      },
+      "performance": {
+        "signals": 13216,
+        "win_rate": 0.4520278450363196,
+        "net_expectancy": 33.088353510895864,
+        "avg_bars": 1.2997881355932204,
+        "profitable": true
+      },
+      "required_win_rate": 0.34,
+      "validation": {
+        "signals": 10344,
+        "win_rate": 0.44286542923433875,
+        "net_expectancy": 30.33962877030164,
+        "avg_bars": 1.1551624129930393,
+        "profitable": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Discord Bot Configuration
+# =========================
+
+discord:
+  # Get this from Discord Developer Portal
+  token: "YOUR_DISCORD_BOT_TOKEN"
+
+  # Your private trading channel ID
+  channel_id: YOUR_CHANNEL_ID
+
+  # Your Discord user ID (for authorization)
+  authorized_users:
+    - YOUR_USER_ID
+
+  # Notification settings
+  notifications:
+    analysis_interval: 300  # Post analysis every 5 min
+    always_post_signals: true
+    always_post_fills: true
+    always_post_exits: true
+    end_of_day_summary: true

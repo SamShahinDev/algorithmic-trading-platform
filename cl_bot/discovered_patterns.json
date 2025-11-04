@@ -1,0 +1,33 @@
+[
+  {
+    "name": "CL_bullish_momentum_15min_hour22_hold10",
+    "market": "CL",
+    "entry_conditions": {
+      "momentum_period": 15,
+      "direction": "bullish",
+      "threshold_multiplier": 1.5,
+      "hour": 22
+    },
+    "exit_conditions": {
+      "hold_period": 10,
+      "stop_loss_pct": 0.09099138691356215,
+      "target_pct": 0.0009884147066722682
+    },
+    "time_filter": {
+      "hour": 22,
+      "minute_range": [
+        0,
+        59
+      ]
+    },
+    "statistics": {
+      "sample_size": 20,
+      "win_rate": 0.55,
+      "avg_win": 0.005759836920140737,
+      "avg_loss": -0.0013147771331131633,
+      "edge": 0.0025762605961764822,
+      "sharpe": 298.04767787059114,
+      "max_mae": 0.12812121212121202
+    }
+  }
+]

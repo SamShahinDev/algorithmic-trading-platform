@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pkill:*)",
+      "Bash(python3:*)",
+      "Bash(grep:*)",
+      "Bash(pip3 install:*)",
+      "Bash(for page in dashboard patterns performance)",
+      "Bash(do echo -n \"$page: \")",
+      "Bash(curl:*)",
+      "Bash(done)",
+      "Bash(sqlite3:*)",
+      "Bash(pgrep:*)",
+      "Bash(PYTHONPATH=/Users/royaltyvixion/Documents/XTRADING python3 nq_bot/fvg_runner.py)",
+      "Bash(export PYTHONPATH=/Users/royaltyvixion/Documents/XTRADING)",
+      "Bash(PYTHONPATH=/Users/royaltyvixion/Documents/XTRADING python3 nq_bot/nq_bot.py)",
+      "Bash(PYTHONPATH=/Users/royaltyvixion/Documents/XTRADING python3 check_accounts.py)",
+      "Bash(xargs kill:*)",
+      "Bash(awk:*)",
+      "Bash(killall:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "timestamp": "2025-08-27T05:20:13.858159",
+    "symbol": "NQ.FUT",
+    "side": "long",
+    "size": 1,
+    "entry_price": 23601.5,
+    "exit_price": 23598.0,
+    "pnl": -70.0,
+    "pattern": "volume_climax",
+    "confidence": 32.73330006695013
+  },
+  {
+    "timestamp": "2025-08-28T13:31:07.389511",
+    "symbol": "NQ.FUT",
+    "side": "long",
+    "size": 1,
+    "entry_price": 23650.0,
+    "exit_price": 23704.75,
+    "pnl": 1095.0,
+    "pattern": null,
+    "confidence": 20.102418007180816
+  },
+  {
+    "timestamp": "2025-08-28T13:31:12.795027",
+    "symbol": "NQ.FUT",
+    "side": "long",
+    "size": 1,
+    "entry_price": 23650.0,
+    "exit_price": 23704.75,
+    "pnl": 1095.0,
+    "pattern": null,
+    "confidence": 20.102418007180816
+  },
+  {
+    "timestamp": "2025-08-28T13:31:19.592822",
+    "symbol": "NQ.FUT",
+    "side": "long",
+    "size": 1,
+    "entry_price": 23650.0,
+    "exit_price": 23704.75,
+    "pnl": 1095.0,
+    "pattern": null,
+    "confidence": 20.102418007180816
+  }
+]

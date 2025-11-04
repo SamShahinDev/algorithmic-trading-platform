@@ -1,0 +1,90 @@
+[
+  {
+    "name": "ES_power_hour_bearish",
+    "market": "ES",
+    "entry_conditions": {
+      "pattern_type": "power_hour",
+      "direction": "bearish",
+      "time_window": [
+        14,
+        30,
+        16,
+        0
+      ]
+    },
+    "exit_conditions": {
+      "hold_period": 15,
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 1890,
+      "win_rate": 0.5201058201058202,
+      "edge": 6.031746031746038e-05
+    }
+  },
+  {
+    "name": "ES_volume_surge_up_hold5",
+    "market": "ES",
+    "entry_conditions": {
+      "pattern_type": "volume_surge",
+      "direction": "up",
+      "volume_multiplier": 2
+    },
+    "exit_conditions": {
+      "hold_period": 5,
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 1198,
+      "win_rate": 0.7237061769616027,
+      "avg_pnl": 0.003102023924895522
+    }
+  },
+  {
+    "name": "ES_volume_surge_up_hold10",
+    "market": "ES",
+    "entry_conditions": {
+      "pattern_type": "volume_surge",
+      "direction": "up",
+      "volume_multiplier": 2
+    },
+    "exit_conditions": {
+      "hold_period": 10,
+      "stop_loss_pct": 0.002,
+      "target_pct": 0.003
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 1198,
+      "win_rate": 0.7086811352253757,
+      "avg_pnl": 0.002981173001476699
+    }
+  },
+  {
+    "name": "ES_oversold_bounce_hold30",
+    "market": "ES",
+    "entry_conditions": {
+      "pattern_type": "oversold_bounce",
+      "rsi_threshold": 30,
+      "bb_position": "below_lower",
+      "volume_ratio_min": 1.2
+    },
+    "exit_conditions": {
+      "hold_period": 30,
+      "stop_loss_pct": 0.0004100292031518043,
+      "target_pct": 0.0007550499696454866
+    },
+    "time_filter": null,
+    "statistics": {
+      "sample_size": 34,
+      "win_rate": 0.6470588235294118,
+      "avg_win": 0.0009438124620568582,
+      "avg_loss": 0.0002733528021012029,
+      "sharpe": 144.5512754497057
+    }
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "CL_volume_surge_down_hold10",
+    "win_rate": 0.754,
+    "samples": 2985,
+    "hold_minutes": 10,
+    "entry": "volume > 2x average & direction down",
+    "stop_loss_pct": 0.002,
+    "target_pct": 0.003
+  },
+  {
+    "name": "CL_volume_surge_down_hold5",
+    "win_rate": 0.739,
+    "samples": 2985,
+    "hold_minutes": 5,
+    "entry": "volume > 2x average & direction down",
+    "stop_loss_pct": 0.002,
+    "target_pct": 0.003
+  }
+]

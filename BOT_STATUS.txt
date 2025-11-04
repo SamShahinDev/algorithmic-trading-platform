@@ -1,0 +1,27 @@
+==========================================
+TRADING BOTS STATUS: STOPPED
+==========================================
+
+Stopped at: Thu Aug 29 2025, 3:00 PM (approx)
+Stopped by: User request
+
+BOTS STOPPED:
+✅ NQ Bot (intelligent_trading_bot_fixed_v2.py) - STOPPED
+✅ ES/CL Bots (run_es_cl_bots.py) - STOPPED  
+✅ Production Monitor - STOPPED
+
+KILL SWITCH: ACTIVE
+Location: logs/GLOBAL_KILL_SWITCH.json
+Status: Prevents all automatic restarts
+
+TO RESTART BOTS:
+1. Delete the kill switch file: rm logs/GLOBAL_KILL_SWITCH.json
+2. Run the start script: ./start_production.sh
+
+IMPORTANT NOTES:
+- All trading has been halted
+- No positions will be opened or managed
+- Monitor any existing open positions manually
+- Bots will NOT restart automatically
+
+==========================================
